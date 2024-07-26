@@ -1,0 +1,13 @@
+@let user = user$ | async;
+<p>user works!</p>
+<p>User id {{ userId }}</p>
+
+@if(isLoadingUser) {
+<p>Loading...</p>
+} @else if (!user) {
+<p>User not found</p>
+} @else {
+<p>{{ user.id }}</p>
+<p>{{ user.name }}</p>
+<p>{{ user.email }}</p>
+}
