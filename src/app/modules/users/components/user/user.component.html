@@ -7,7 +7,20 @@
 } @else if (!user) {
 <p>User not found</p>
 } @else {
-<p>{{ user.id }}</p>
-<p>{{ user.name }}</p>
-<p>{{ user.email }}</p>
-}
+<div>
+  <p>{{ user.id }}</p>
+  <p>{{ user.name }}</p>
+  <p>{{ user.email }}</p>
+</div>
+@for (album of albums(); track album.id) {
+<ul>
+  <li>
+    <a href="">
+      {{ album.id }}
+    </a>
+    <p>{{ album.title }}</p>
+  </li>
+</ul>
+} @empty {
+<p>Sem albums</p>
+} }
