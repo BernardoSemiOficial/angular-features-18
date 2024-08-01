@@ -1,11 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CardModule, ButtonModule],
   providers: [UserService],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',

@@ -1,9 +1,22 @@
-<p>users works!</p>
-<p>Lista de usuários</p>
-@for (user of users(); track user.id) {
-<button (click)="redirectDetails(user.id)">
-  <p>{{ user.id }}</p>
-  <p>{{ user.name }}</p>
-  <p>{{ user.email }}</p>
-</button>
-}
+<h1 class="text-center">Usuários</h1>
+<section class="flex flex-wrap justify-content-center gap-3">
+  @for (user of users(); track user.id) {
+  <p-card
+    [header]="user.id + '. ' + user.name"
+    [subheader]="user.email"
+    [style]="{ width: '360px' }"
+  >
+    <ng-template pTemplate="footer">
+      <div class="flex gap-3 mt-1">
+        <p-button
+          label="View"
+          class="w-full"
+          styleClass="w-full"
+          (click)="redirectDetails(user.id)"
+          (keydown)="redirectDetails(user.id)"
+        />
+      </div>
+    </ng-template>
+  </p-card>
+  }
+</section>

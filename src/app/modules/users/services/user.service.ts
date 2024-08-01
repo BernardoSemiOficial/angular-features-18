@@ -22,6 +22,7 @@ export class UserService {
   }
 
   public setUser(user: User) {
+    console.log(user);
     this._user.set(user);
   }
 

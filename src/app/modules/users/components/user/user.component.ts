@@ -1,8 +1,9 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 import { map } from 'rxjs';
-import { User } from '../../models/user.model';
 import { AlbumService } from '../../services/album.service';
 import { PhotoService } from '../../services/photo.service';
 import { UserService } from '../../services/user.service';
@@ -10,7 +11,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [RouterModule, AsyncPipe],
+  imports: [RouterModule, AsyncPipe, JsonPipe, CardModule, ButtonModule],
   providers: [UserService, AlbumService, PhotoService],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
@@ -21,16 +22,11 @@ export class UserComponent {
   private router: Router = inject(Router);
   private route: ActivatedRoute = inject(ActivatedRoute);
   @Input() userId: number = 0;
-  user!: User;
   isLoadingUser: boolean = false;
-  albums = this.albumService.albums;
+  userSignal = this.userService.user;
+  albumsSignal = this.albumService.albums;
 
   ngOnInit() {
-    this.getUser();
-  }
-
-  getUser() {
-    this.user = this.userService.user();
     this.getAlbums();
   }
 
@@ -42,7 +38,7 @@ export class UserComponent {
   }
 
   redirectDetails(albumId: number) {
-    const album = this.albums().find((album) => album.id === albumId);
+    const album = this.albumsSignal().find((album) => album.id === albumId);
     if (album) this.albumService.setAlbum(album);
     this.router.navigate(['albums', albumId], { relativeTo: this.route });
   }
