@@ -14,6 +14,15 @@ export const routes: Routes = [
       import('./modules/users/components/user/user.component').then(
         (c) => c.UserComponent
       ),
+    children: [
+      {
+        path: 'albums/:albumId',
+        loadComponent: () =>
+          import('./modules/users/components/album/album.component').then(
+            (c) => c.AlbumComponent
+          ),
+      },
+    ],
   },
   {
     path: '',

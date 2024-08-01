@@ -1,0 +1,16 @@
+<!-- @let album = album(); -->
+Album:
+<p>{{ album().id }}</p>
+<p>{{ album().title }}</p>
+
+@for (photo of photos(); track photo.id) {
+<ul>
+  <li>
+    <button>{{ photo.id }}</button>
+    <p>{{ photo.title }}</p>
+    <img [src]="photo.thumbnailUrl" alt="" />
+  </li>
+</ul>
+} @empty {
+<p>Not photos</p>
+}

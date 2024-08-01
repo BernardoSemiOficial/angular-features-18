@@ -1,10 +1,7 @@
-@let user = user$ | async;
 <p>user works!</p>
 <p>User id {{ userId }}</p>
 
-@if(isLoadingUser) {
-<p>Loading...</p>
-} @else if (!user) {
+@if (!user) {
 <p>User not found</p>
 } @else {
 <div>
@@ -15,12 +12,14 @@
 @for (album of albums(); track album.id) {
 <ul>
   <li>
-    <a href="">
+    <button (click)="redirectDetails(album.id)">
       {{ album.id }}
-    </a>
+    </button>
     <p>{{ album.title }}</p>
   </li>
 </ul>
 } @empty {
 <p>Sem albums</p>
 } }
+
+<router-outlet></router-outlet>

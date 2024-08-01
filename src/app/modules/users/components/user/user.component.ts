@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { map } from 'rxjs';
 import { User } from '../../models/user.model';
 import { AlbumService } from '../../services/album.service';
 import { PhotoService } from '../../services/photo.service';
@@ -18,8 +18,10 @@ import { UserService } from '../../services/user.service';
 export class UserComponent {
   private userService: UserService = inject(UserService);
   private albumService: AlbumService = inject(AlbumService);
+  private router: Router = inject(Router);
+  private route: ActivatedRoute = inject(ActivatedRoute);
   @Input() userId: number = 0;
-  user$!: Observable<User>;
+  user!: User;
   isLoadingUser: boolean = false;
   albums = this.albumService.albums;
 
@@ -28,15 +30,8 @@ export class UserComponent {
   }
 
   getUser() {
-    this.isLoadingUser = true;
-    this.user$ = this.userService.getUser(this.userId).pipe(
-      map((user) => {
-        this.isLoadingUser = false;
-        this.userService.setUser(user);
-        this.getAlbums();
-        return user;
-      })
-    );
+    this.user = this.userService.user();
+    this.getAlbums();
   }
 
   getAlbums() {
@@ -44,5 +39,11 @@ export class UserComponent {
       .getAlbumsByUser(this.userId)
       .pipe(map((albums) => this.albumService.setAlbums(albums)))
       .subscribe();
+  }
+
+  redirectDetails(albumId: number) {
+    const album = this.albums().find((album) => album.id === albumId);
+    if (album) this.albumService.setAlbum(album);
+    this.router.navigate(['albums', albumId], { relativeTo: this.route });
   }
 }

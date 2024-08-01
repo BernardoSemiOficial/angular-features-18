@@ -1,9 +1,9 @@
 <p>users works!</p>
 <p>Lista de usuários</p>
 @for (user of users(); track user.id) {
-<a [routerLink]="['/users', user.id]">
+<button (click)="redirectDetails(user.id)">
   <p>{{ user.id }}</p>
   <p>{{ user.name }}</p>
   <p>{{ user.email }}</p>
-</a>
+</button>
 }

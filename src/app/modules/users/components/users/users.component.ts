@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -12,11 +12,18 @@ import { UserService } from '../../services/user.service';
 })
 export class UsersComponent implements OnInit {
   private userService: UserService = inject(UserService);
+  private router: Router = inject(Router);
   users = this.userService.users;
 
   ngOnInit() {
     this.userService.getUsers().subscribe((users) => {
       this.userService.setUsers(users);
     });
+  }
+
+  redirectDetails(userId: number) {
+    const user = this.users().find((user) => user.id === userId);
+    if (user) this.userService.setUser(user);
+    this.router.navigate(['users', userId]);
   }
 }
