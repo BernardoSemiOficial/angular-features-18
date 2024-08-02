@@ -5,14 +5,13 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { map } from 'rxjs';
 import { AlbumService } from '../../services/album.service';
-import { PhotoService } from '../../services/photo.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user',
   standalone: true,
   imports: [RouterModule, AsyncPipe, JsonPipe, CardModule, ButtonModule],
-  providers: [UserService, AlbumService, PhotoService],
+  providers: [],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
 })
@@ -27,7 +26,14 @@ export class UserComponent {
   albumsSignal = this.albumService.albums;
 
   ngOnInit() {
+    this.getUser();
     this.getAlbums();
+  }
+
+  getUser() {
+    this.userService
+      .getUser(this.userId)
+      .subscribe((user) => this.userService.setUser(user));
   }
 
   getAlbums() {

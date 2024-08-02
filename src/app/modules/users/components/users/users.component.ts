@@ -8,7 +8,7 @@ import { UserService } from '../../services/user.service';
   selector: 'app-users',
   standalone: true,
   imports: [RouterModule, CardModule, ButtonModule],
-  providers: [UserService],
+  providers: [],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss',
 })

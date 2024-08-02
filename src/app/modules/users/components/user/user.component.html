@@ -1,23 +1,27 @@
 @let user = userSignal(); @let albums = albumsSignal();
 <h1 class="text-center">User</h1>
 
-<section class="text-center p-4">
+<section class="p-4">
   @if (!user) {
   <p>User not found</p>
   } @else {
-  {{ user | json }}
-  <p-card [header]="user.id + '. ' + user.name" [subheader]="user.email">
+  <p-card
+    [header]="user.id + '. ' + user.name"
+    [subheader]="user.email"
+    [style]="{ width: '360px' }"
+  >
+    <p>website: {{ user.website }}</p>
   </p-card>
-  <section class="flex flex-wrap justify-content-center p-4">
+  <h3 class="mt-5 mb-0">Albuns:</h3>
+  <section class="flex flex-wrap justify-content-center gap-3 p-4">
     @for (album of albums; track album.id) {
-    <ul>
-      <li>
-        <button (click)="redirectDetails(album.id)">
-          {{ album.id }}
-        </button>
-        <p>{{ album.title }}</p>
-      </li>
-    </ul>
+    <p-card
+      (click)="redirectDetails(album.id)"
+      (keydown)="redirectDetails(album.id)"
+      [header]="album.id + '.'"
+      [subheader]="album.title"
+      [style]="{ width: '360px' }"
+    ></p-card>
     } @empty {
     <p>Sem albums</p>
     }

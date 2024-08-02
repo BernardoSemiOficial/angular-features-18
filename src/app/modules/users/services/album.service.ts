@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Album } from '../models/album.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AlbumService {
   private httpClient: HttpClient = inject(HttpClient);
   private readonly baseUrl = 'https://jsonplaceholder.typicode.com';

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserService {
   private httpClient: HttpClient = inject(HttpClient);
   private readonly baseUrl = 'https://jsonplaceholder.typicode.com';
@@ -12,6 +12,18 @@ export class UserService {
   private _user = signal<User>({} as User);
   public readonly users = computed(() => this._users());
   public readonly user = computed(() => this._user());
+
+  constructor() {
+    effect(() => {
+      const users = this.users();
+      const user = this.user();
+      console.log({ users, user });
+    });
+
+    this.getUsers().subscribe((users) => {
+      this.setUsers(users);
+    });
+  }
 
   public getUsers(): Observable<User[]> {
     return this.httpClient.get<User[]>(this.baseUrl + '/users');
