@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SessionStorageEnum } from '../enums/local-storage.enum';
 import { User } from '../models/user.model';
 
@@ -21,34 +21,48 @@ export class UserService {
     });
     effect(() => {
       const user = this.user();
-      sessionStorage.setItem(SessionStorageEnum.USER, JSON.stringify(user));
+      sessionStorage.setItem(
+        user.id ? SessionStorageEnum.USER + user.id : SessionStorageEnum.USER,
+        JSON.stringify(user)
+      );
     });
-    this.getUsersSessionStorage();
+    const usersExists = this.getUsersSessionStorage();
+    if (usersExists) this.setUsers(usersExists);
   }
 
-  private getUsersSessionStorage() {
+  private getUsersSessionStorage(): User[] | null {
     const usersSessionStorage = sessionStorage.getItem(
       SessionStorageEnum.USERS
     );
     const users =
       !!usersSessionStorage && (JSON.parse(usersSessionStorage) as User[]);
-    if (!users)
-      this.getUsers().subscribe((users) => {
-        this.setUsers(users);
-      });
-    if (users) this.setUsers(users);
+    return users || null;
+  }
+
+  private getUserSessionStorage(userId: number): User | null {
+    const userSessionStorage = sessionStorage.getItem(
+      SessionStorageEnum.USER + userId
+    );
+    const user =
+      !!userSessionStorage && (JSON.parse(userSessionStorage) as User);
+    return user || null;
   }
 
   public getUsers(): Observable<User[]> {
+    const usersExists = this.getUsersSessionStorage();
+    if (usersExists?.length) return of(usersExists);
+
     return this.httpClient.get<User[]>(this.baseUrl + '/users');
   }
 
   public getUser(id: number): Observable<User> {
+    const userExists = this.getUserSessionStorage(id);
+    if (userExists && Object.values(userExists).length) return of(userExists);
+
     return this.httpClient.get<User>(this.baseUrl + `/users/${id}`);
   }
 
   public setUser(user: User) {
-    console.log(user);
     this._user.set(user);
   }
 

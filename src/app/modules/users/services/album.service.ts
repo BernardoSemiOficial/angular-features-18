@@ -55,7 +55,7 @@ export class AlbumService {
 
   public getAlbumsByUser(userId: number): Observable<Album[]> {
     const albumsExists = this.getAlbumsSessionStorage(userId);
-    if (albumsExists) return of(albumsExists);
+    if (albumsExists?.length) return of(albumsExists);
 
     const params = new HttpParams().set('userId', userId ?? 0);
     return this.httpClient.get<Album[]>(this.baseUrl + '/albums', { params });
@@ -63,7 +63,8 @@ export class AlbumService {
 
   public getAlbum(albumId: number): Observable<Album> {
     const albumExists = this.getAlbumSessionStorage(albumId);
-    if (albumExists) return of(albumExists);
+    if (albumExists && Object.values(albumExists).length)
+      return of(albumExists);
 
     return this.httpClient.get<Album>(this.baseUrl + '/albums/' + albumId);
   }
