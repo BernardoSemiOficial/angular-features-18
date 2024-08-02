@@ -6,6 +6,8 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 import { map } from 'rxjs';
 import { AlbumService } from '../../services/album.service';
 import { PhotoService } from '../../services/photo.service';
@@ -13,7 +15,7 @@ import { PhotoService } from '../../services/photo.service';
 @Component({
   selector: 'app-album',
   standalone: true,
-  imports: [],
+  imports: [CardModule, ButtonModule],
   templateUrl: './album.component.html',
   styleUrl: './album.component.scss',
 })

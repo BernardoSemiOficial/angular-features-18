@@ -7,15 +7,13 @@
     [style]="{ width: '360px' }"
   >
     <ng-template pTemplate="footer">
-      <div class="flex gap-3 mt-1">
-        <p-button
-          label="View"
-          class="w-full"
-          styleClass="w-full"
-          (click)="redirectDetails(user.id)"
-          (keydown)="redirectDetails(user.id)"
-        />
-      </div>
+      <p-button
+        label="View"
+        class="w-full"
+        styleClass="w-full"
+        (click)="redirectDetails(user.id)"
+        (keydown)="redirectDetails(user.id)"
+      />
     </ng-template>
   </p-card>
   }

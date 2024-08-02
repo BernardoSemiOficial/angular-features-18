@@ -7,13 +7,15 @@
   class="flex flex-wrap justify-content-center align-items-center gap-3 p-4"
 >
   @for (photo of photos(); track photo.id) {
-  <ul>
-    <li>
-      <button>{{ photo.id }}</button>
-      <p>{{ photo.title }}</p>
-      <img [src]="photo.thumbnailUrl" alt="" />
-    </li>
-  </ul>
+  <p-card
+    [header]="photo?.title?.slice(0, 15)"
+    [subheader]="album?.title?.slice(0, 15)"
+    [style]="{ width: '300px' }"
+  >
+    <ng-template pTemplate="header">
+      <img alt="Card" [src]="photo.thumbnailUrl" />
+    </ng-template>
+  </p-card>
   } @empty {
   <p>Not photos</p>
   }

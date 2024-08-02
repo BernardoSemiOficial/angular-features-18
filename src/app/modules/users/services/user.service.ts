@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SessionStorageEnum } from '../enums/local-storage.enum';
 import { User } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
@@ -16,13 +17,26 @@ export class UserService {
   constructor() {
     effect(() => {
       const users = this.users();
+      sessionStorage.setItem(SessionStorageEnum.USERS, JSON.stringify(users));
+    });
+    effect(() => {
       const user = this.user();
-      console.log({ users, user });
+      sessionStorage.setItem(SessionStorageEnum.USER, JSON.stringify(user));
     });
+    this.getUsersSessionStorage();
+  }
 
-    this.getUsers().subscribe((users) => {
-      this.setUsers(users);
-    });
+  private getUsersSessionStorage() {
+    const usersSessionStorage = sessionStorage.getItem(
+      SessionStorageEnum.USERS
+    );
+    const users =
+      !!usersSessionStorage && (JSON.parse(usersSessionStorage) as User[]);
+    if (!users)
+      this.getUsers().subscribe((users) => {
+        this.setUsers(users);
+      });
+    if (users) this.setUsers(users);
   }
 
   public getUsers(): Observable<User[]> {

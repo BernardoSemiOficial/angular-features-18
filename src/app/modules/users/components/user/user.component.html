@@ -17,13 +17,18 @@
     class="flex flex-wrap justify-content-center align-items-center gap-3 p-4"
   >
     @for (album of albums; track album.id) {
-    <p-card
-      (click)="redirectDetails(album.id)"
-      (keydown)="redirectDetails(album.id)"
-      [header]="album.id + '.'"
-      [subheader]="album.title"
-      [style]="{ width: '160px' }"
-    ></p-card>
+    <p-card [header]="album.id + '.'" [style]="{ width: '250px' }">
+      <p>{{ album?.title?.slice(0, 15) }}</p>
+      <ng-template pTemplate="footer">
+        <p-button
+          label="View"
+          class="w-full"
+          styleClass="w-full"
+          (click)="redirectDetails(album.id)"
+          (keydown)="redirectDetails(album.id)"
+        />
+      </ng-template>
+    </p-card>
     } @empty {
     <p>Sem albums</p>
     }
