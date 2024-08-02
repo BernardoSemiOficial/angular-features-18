@@ -1,16 +1,20 @@
-<!-- @let album = album(); -->
-Album:
-<p>{{ album().id }}</p>
-<p>{{ album().title }}</p>
-
-@for (photo of photos(); track photo.id) {
-<ul>
-  <li>
-    <button>{{ photo.id }}</button>
-    <p>{{ photo.title }}</p>
-    <img [src]="photo.thumbnailUrl" alt="" />
-  </li>
-</ul>
-} @empty {
-<p>Not photos</p>
-}
+@let album = albumSignal();
+<section class="p-4">
+  <h3>Album:</h3>
+  <p>{{ album.id }}. {{ album.title }}</p>
+</section>
+<section
+  class="flex flex-wrap justify-content-center align-items-center gap-3 p-4"
+>
+  @for (photo of photos(); track photo.id) {
+  <ul>
+    <li>
+      <button>{{ photo.id }}</button>
+      <p>{{ photo.title }}</p>
+      <img [src]="photo.thumbnailUrl" alt="" />
+    </li>
+  </ul>
+  } @empty {
+  <p>Not photos</p>
+  }
+</section>

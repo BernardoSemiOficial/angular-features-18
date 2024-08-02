@@ -18,6 +18,10 @@ export class AlbumService {
     return this.httpClient.get<Album[]>(this.baseUrl + '/albums', { params });
   }
 
+  public getAlbum(albumId: number): Observable<Album> {
+    return this.httpClient.get<Album>(this.baseUrl + '/albums/' + albumId);
+  }
+
   public setAlbum(album: Album) {
     this._album.set(album);
   }

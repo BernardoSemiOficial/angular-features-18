@@ -20,11 +20,13 @@ import { PhotoService } from '../../services/photo.service';
 export class AlbumComponent implements OnInit, OnChanges {
   private albumService: AlbumService = inject(AlbumService);
   private photoService: PhotoService = inject(PhotoService);
-  @Input() albumId: number = 0;
-  album = this.albumService.album;
+  @Input({ transform: (id: string) => Number(id) }) albumId: number = 0;
+  albumSignal = this.albumService.album;
+  albumsSignal = this.albumService.albums;
   photos = this.photoService.photos;
 
   ngOnInit() {
+    this.getAlbum();
     this.getPhotos();
   }
 
@@ -32,6 +34,12 @@ export class AlbumComponent implements OnInit, OnChanges {
     if (data['albumId'].currentValue !== data['albumId'].previousValue) {
       this.getPhotos();
     }
+  }
+
+  getAlbum() {
+    this.albumService.getAlbum(this.albumId).subscribe((album) => {
+      this.albumService.setAlbum(album);
+    });
   }
 
   getPhotos() {

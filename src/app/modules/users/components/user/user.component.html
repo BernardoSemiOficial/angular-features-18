@@ -13,14 +13,16 @@
     <p>website: {{ user.website }}</p>
   </p-card>
   <h3 class="mt-5 mb-0">Albuns:</h3>
-  <section class="flex flex-wrap justify-content-center gap-3 p-4">
+  <section
+    class="flex flex-wrap justify-content-center align-items-center gap-3 p-4"
+  >
     @for (album of albums; track album.id) {
     <p-card
       (click)="redirectDetails(album.id)"
       (keydown)="redirectDetails(album.id)"
       [header]="album.id + '.'"
       [subheader]="album.title"
-      [style]="{ width: '360px' }"
+      [style]="{ width: '160px' }"
     ></p-card>
     } @empty {
     <p>Sem albums</p>
