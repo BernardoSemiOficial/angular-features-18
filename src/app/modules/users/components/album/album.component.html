@@ -13,7 +13,7 @@
     [style]="{ width: '300px' }"
   >
     <ng-template pTemplate="header">
-      <img alt="Card" [src]="photo.thumbnailUrl" />
+      <img alt="Card" loading="lazy" [src]="photo.thumbnailUrl" />
     </ng-template>
   </p-card>
   } @empty {

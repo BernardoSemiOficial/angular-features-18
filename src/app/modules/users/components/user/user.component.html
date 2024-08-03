@@ -12,6 +12,7 @@
     [style]="{ width: '360px' }"
   >
     <p>website: {{ user.website }}</p>
+    <p>address: {{ user.address | addressConcat }}</p>
   </p-card>
   <h3 class="mt-5 mb-0">Albuns:</h3>
   <section

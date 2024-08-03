@@ -4,13 +4,21 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { map } from 'rxjs';
+import { AddressConcatPipe } from '../../pipes/address-concat.pipe';
 import { AlbumService } from '../../services/album.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [RouterModule, AsyncPipe, JsonPipe, CardModule, ButtonModule],
+  imports: [
+    RouterModule,
+    AsyncPipe,
+    JsonPipe,
+    CardModule,
+    ButtonModule,
+    AddressConcatPipe,
+  ],
   providers: [],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
